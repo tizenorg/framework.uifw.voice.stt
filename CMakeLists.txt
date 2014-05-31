@@ -1,0 +1,27 @@
+CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
+PROJECT(libstt)
+
+## Include common directory ##
+INCLUDE_DIRECTORIES("${CMAKE_SOURCE_DIR}/common")
+
+## Dependent packages ##
+INCLUDE(FindPkgConfig)
+pkg_check_modules(pkgs REQUIRED 
+	glib-2.0 dbus-1 vconf dlog ecore ecore-file capi-media-audio-io capi-media-sound-manager
+)
+
+## Client library ##
+ADD_SUBDIRECTORY(client)
+
+## Server daemon ##
+ADD_SUBDIRECTORY(server)
+
+INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/LICENSE.APLv2 RENAME stt DESTINATION /usr/share/license)
+
+IF(${CMAKE_BUILD_PROFILE} STREQUAL "wearable")
+	SET(SMACK_RULE_PATH "/etc/smack/accesses2.d")
+ELSE()
+	SET(SMACK_RULE_PATH "/etc/smack/accesses.d")
+ENDIF()
+INSTALL(FILES ${CMAKE_SOURCE_DIR}/stt-server.rule DESTINATION  ${SMACK_RULE_PATH})
+INSTALL(FILES ${CMAKE_SOURCE_DIR}/sysinfo-stt.xml DESTINATION /etc/config)
