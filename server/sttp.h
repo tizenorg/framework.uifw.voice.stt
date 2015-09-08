@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2011 Samsung Electronics Co., Ltd All Rights Reserved 
+*  Copyright (c) 2011-2014 Samsung Electronics Co., Ltd All Rights Reserved
 *  Licensed under the Apache License, Version 2.0 (the "License");
 *  you may not use this file except in compliance with the License.
 *  You may obtain a copy of the License at
@@ -26,7 +26,7 @@
 extern "C" {
 #endif
 
-/** 
+/**
 * @brief Enumerations of error codes.
 */
 typedef enum {
@@ -42,186 +42,108 @@ typedef enum {
 }sttp_error_e;
 
 /**
-* @brief Enumerations of audio type. 
+* @brief Enumerations of audio type.
 */
 typedef enum {
 	STTP_AUDIO_TYPE_PCM_S16_LE = 0,	/**< Signed 16bit audio type, Little endian */
-	STTP_AUDIO_TYPE_PCM_U8,		/**< Unsigned 8bit audio type */
-	STTP_AUDIO_TYPE_AMR		/**< AMR audio type */
+	STTP_AUDIO_TYPE_PCM_U8		/**< Unsigned 8bit audio type */
 }sttp_audio_type_e;
 
 /**
 * @brief Enumerations of callback event.
 */
 typedef enum {
-	STTP_RESULT_EVENT_SUCCESS = 0,	/**< Event when the recognition full result is ready  */
-	STTP_RESULT_EVENT_NO_RESULT,	/**< Event when the recognition result is not */
-	STTP_RESULT_EVENT_ERROR		/**< Event when the recognition has failed */
+	STTP_RESULT_EVENT_FINAL_RESULT = 0,	/**< Event when the recognition full or last result is ready  */
+	STTP_RESULT_EVENT_PARTIAL_RESULT,	/**< Event when the recognition partial result is ready  */
+	STTP_RESULT_EVENT_ERROR			/**< Event when the recognition has failed */
 }sttp_result_event_e;
 
-/** 
-* @brief Recognition type : free form dictation or default type.
+/**
+* @brief Enumerations of result time callback event.
 */
-#define STTP_RECOGNITION_TYPE_FREE			"stt.recognition.type.FREE"
+typedef enum {
+	STTP_RESULT_TIME_EVENT_BEGINNING = 0,	/**< Event when the token is beginning type */
+	STTP_RESULT_TIME_EVENT_MIDDLE,		/**< Event when the token is middle type */
+	STTP_RESULT_TIME_EVENT_END		/**< Event when the token is end type */
+}sttp_result_time_event_e;
 
-/** 
-* @brief Recognition type : web search. 
+/**
+* @brief Enumerations of silence type.
 */
-#define STTP_RECOGNITION_TYPE_WEB_SEARCH		"stt.recognition.type.WEB_SEARCH"
+typedef enum {
+	STTP_SILENCE_TYPE_NO_RECORD_TIMEOUT = 0,	/**< No sound is recorded */
+	STTP_SILENCE_TYPE_END_OF_SPEECH_DETECTED	/**< End of speech is detected */
+}sttp_silence_type_e;
 
-/** 
-* @brief Recognition type : all voice commands. 
+/**
+* @brief Recognition type : free form dictation and default type.
 */
-#define STTP_RECOGNITION_TYPE_COMMAND			"stt.recognition.type.COMMAND"
+#define STTP_RECOGNITION_TYPE_FREE		"stt.recognition.type.FREE"
 
-/** 
-* @brief Recognition type : call of voice commands. 
+/**
+* @brief Recognition type : free form dictation continuously.
 */
-#define STTP_RECOGNITION_TYPE_COMMAND_CALL		"stt.recognition.type.COMMAND.CALL"
+#define STTP_RECOGNITION_TYPE_FREE_PARTIAL	"stt.recognition.type.FREE.PARTIAL"
 
-/** 
-* @brief Recognition type : music of voice commands. 
+/**
+* @brief Recognition type : Search.
 */
-#define STTP_RECOGNITION_TYPE_COMMAND_MUSIC		"stt.recognition.type.COMMAND.MUSIC"
+#define STTP_RECOGNITION_TYPE_SEARCH		"stt.recognition.type.SEARCH"
 
-/** 
-* @brief Recognition type : web search of voice commands. 
+/**
+* @brief Recognition type : web search.
 */
-#define STTP_RECOGNITION_TYPE_COMMAND_WEB_SEARCH	"stt.recognition.type.COMMAND.WEB_SEARCH"
+#define STTP_RECOGNITION_TYPE_WEB_SEARCH	"stt.recognition.type.WEB_SEARCH"
 
-/** 
-* @brief Recognition type : schedule of voice commands. 
+/**
+* @brief Recognition type : Map.
 */
-#define STTP_RECOGNITION_TYPE_COMMAND_SCHEDULE		"stt.recognition.type.COMMAND.SCHEDULE"
+#define STTP_RECOGNITION_TYPE_MAP		"stt.recognition.type.MAP"
 
-/** 
-* @brief Recognition type : search of voice commands. 
-*/
-#define STTP_RECOGNITION_TYPE_COMMAND_SEARCH		"stt.recognition.type.COMMAND.SEARCH"
 
-/** 
-* @brief Recognition type : contact of voice commands. 
-*/
-#define STTP_RECOGNITION_TYPE_COMMAND_CONTACT		"stt.recognition.type.COMMAND.CONTACT"
-
-/** 
-* @brief Recognition type : social of voice commands. 
-*/
-#define STTP_RECOGNITION_TYPE_COMMAND_SOCIAL		"stt.recognition.type.COMMAND.SOCIAL"
-
-/** 
-* @brief Recognition type : message of voice commands. 
-*/
-#define STTP_RECOGNITION_TYPE_COMMAND_MESSAGE		"stt.recognition.type.COMMAND.MESSAGE"
-
-/** 
-* @brief Recognition type : email of voice commands. 
-*/
-#define STTP_RECOGNITION_TYPE_COMMAND_EMAIL		"stt.recognition.type.COMMAND.EMAIL"
-
-/** 
-* @brief Recognition type : memo of voice commands. 
-*/
-#define STTP_RECOGNITION_TYPE_COMMAND_MEMO		"stt.recognition.type.COMMAND.MEMO"
-
-/** 
-* @brief Recognition type : alarm of voice commands. 
-*/
-#define STTP_RECOGNITION_TYPE_COMMAND_ALARM		"stt.recognition.type.COMMAND.ALARM"
-
-/** 
-* @brief Recognition type : application of voice commands. 
-*/
-#define STTP_RECOGNITION_TYPE_COMMAND_APPLICATION	"stt.recognition.type.COMMAND.APPLICATION"
-
-/** 
-* @brief Recognition type : driving mode of voice commands. 
-*/
-#define STTP_RECOGNITION_TYPE_COMMAND_DRIVING_MODE	"stt.recognition.type.COMMAND.DRIVING_MODE"
-
-/** 
-* @brief Recognition type : navigation of voice commands. 
-*/
-#define STTP_RECOGNITION_TYPE_COMMAND_NAVIGATION	"stt.recognition.type.COMMAND.NAVIGATION"
-
-/** 
-* @brief Recognition type : text-to-speech of voice commands.
-*/
-#define STTP_RECOGNITION_TYPE_COMMAND_TTS		"stt.recognition.type.COMMAND.TTS"
-
-/** 
+/**
 * @brief Result message : None message
 */
 #define STTP_RESULT_MESSAGE_NONE		"stt.result.message.none"
 
-/** 
-* @brief Result warning message : The speech has started too soon
-*/
-#define STTP_RESULT_MESSAGE_WARNING_TOO_SOON	"stt.result.message.warning.too.soon"
-
-/** 
-* @brief Result warning message : The speech is too short
-*/
-#define STTP_RESULT_MESSAGE_WARNING_TOO_SHORT	"stt.result.message.warning.too.short"
-
-/** 
-* @brief Result warning message : The speech is too long
-*/
-#define STTP_RESULT_MESSAGE_WARNING_TOO_LONG	"stt.result.message.warning.too.long"
-
-/** 
-* @brief Result warning message : The speech is too quiet to listen
-*/
-#define STTP_RESULT_MESSAGE_WARNING_TOO_QUIET	"stt.result.message.warning.too.quiet"
-
-/** 
-* @brief Result warning message : The speech is too loud to listen
-*/
-#define STTP_RESULT_MESSAGE_WARNING_TOO_LOUD	"stt.result.message.warning.too.loud"
-
-/** 
-* @brief Result warning message : The speech is too fast to listen
-*/
-#define STTP_RESULT_MESSAGE_WARNING_TOO_FAST	"stt.result.message.warning.too.fast"
-
-/** 
+/**
 * @brief Result error message : Recognition was failed because the speech started too soon
 */
 #define STTP_RESULT_MESSAGE_ERROR_TOO_SOON	"stt.result.message.error.too.soon"
 
-/** 
+/**
 * @brief Result error message : Recognition was failed because the speech started too short
 */
 #define STTP_RESULT_MESSAGE_ERROR_TOO_SHORT	"stt.result.message.error.too.short"
 
-/** 
+/**
 * @brief Result error message : Recognition was failed because the speech started too long
 */
 #define STTP_RESULT_MESSAGE_ERROR_TOO_LONG	"stt.result.message.error.too.long"
 
-/** 
+/**
 * @brief Result error message : Recognition was failed because the speech started too quiet to listen
 */
 #define STTP_RESULT_MESSAGE_ERROR_TOO_QUIET	"stt.result.message.error.too.quiet"
 
-/** 
-* @brief Result error message : Recognition was failed because the speech started too loud to listen 
+/**
+* @brief Result error message : Recognition was failed because the speech started too loud to listen
 */
 #define STTP_RESULT_MESSAGE_ERROR_TOO_LOUD	"stt.result.message.error.too.loud"
 
-/** 
+/**
 * @brief Result error message : Recognition was failed because the speech started too fast to listen
 */
 #define STTP_RESULT_MESSAGE_ERROR_TOO_FAST	"stt.result.message.error.too.fast"
 
-/** 
+/**
 * @brief Called to get recognition result.
-* 
+*
 * @param[in] event A result event
-* @param[in] type A recognition type (e.g. #STTP_RECOGNITION_TYPE_FREE, #STTP_RECOGNITION_TYPE_COMMAND)
+* @param[in] type A recognition type (e.g. #STTP_RECOGNITION_TYPE_FREE, #STTP_RECOGNITION_TYPE_FREE_PARTIAL)
 * @param[in] data Result texts
 * @param[in] data_count Result text count
-* @param[in] msg Engine message (e.g. #STTP_RESULT_MESSAGE_WARNING_TOO_SOON, #STTP_RESULT_MESSAGE_ERROR_TOO_SHORT)
+* @param[in] msg Engine message (e.g. #STTP_RESULT_MESSAGE_NONE, #STTP_RESULT_MESSAGE_ERROR_TOO_SHORT)
 * @param[in] user_data	The user data passed from the start function
 *
 * @pre sttpe_stop() will invoke this callback.
@@ -229,35 +151,41 @@ typedef enum {
 * @see sttpe_start()
 * @see sttpe_stop()
 */
-typedef void (*sttpe_result_cb)(sttp_result_event_e event, const char* type, 
-				const char** data, int data_count, const char* msg, void *user_data);
+typedef void (*sttpe_result_cb)(sttp_result_event_e event, const char* type, const char** data, int data_count,
+				const char* msg, void* time_info, void* user_data);
 
-/** 
-* @brief Called to get partial recognition result.
-* 
-* @param[in] event A result event
-* @param[in] data A result text
-* @param[in] user_data	The user data passed from the start function.
+/**
+* @brief Called to retrieve the time stamp of result.
 *
-* @pre sttpe_set_recording_data() will invoke this callback
+* @param[in] index The result index
+* @param[in] event The token event
+* @param[in] text The result text
+* @param[in] start_time The start time of result text
+* @param[in] end_time The end time of result text
+* @param[in] user_data The user data passed from the foreach function
 *
-* @see sttpe_set_recording_data()
+* @return @c true to continue with the next iteration of the loop \n @c false to break out of the loop
+*
+* @pre sttpe_result_cb() should be called.
+*
+* @see sttpe_result_cb()
 */
-typedef void (*sttpe_partial_result_cb)(sttp_result_event_e event, const char* data, void *user_data);
+typedef bool (*sttpe_result_time_cb)(int index, sttp_result_time_event_e event, const char* text,
+				long start_time, long end_time, void* user_data);
 
-/** 
+/**
 * @brief Called to detect silence from recording data.
-* 
+*
 * @param[in] user_data	The user data passed from the start function.
 *
 * @pre sttpe_set_recording_data() will invoke this callback.
 *
 * @see sttpe_set_recording_data()
 */
-typedef void (*sttpe_silence_detected_cb)(void *user_data);
+typedef void (*sttpe_silence_detected_cb)(sttp_silence_type_e type, void* user_data);
 
 /**
-* @brief Called to retrieve the supported languages. 
+* @brief Called to retrieve the supported languages.
 *
 * @param[in] language A language is specified as an ISO 3166 alpha-2 two letter country-code
 *		followed by ISO 639-1 for the two-letter language code \n
@@ -266,31 +194,16 @@ typedef void (*sttpe_silence_detected_cb)(void *user_data);
 *
 * @return @c true to continue with the next iteration of the loop \n @c false to break out of the loop
 *
-* @pre sttpe_foreach_supported_languages() will invoke this callback. 
+* @pre sttpe_foreach_supported_languages() will invoke this callback.
 *
 * @see sttpe_foreach_supported_languages()
 */
 typedef bool (*sttpe_supported_language_cb)(const char* language, void* user_data);
 
 /**
-* @brief Called to retrieve the supported engine settings.
-*
-* @param[in] key A key
-* @param[in] value A value
-* @param[in] user_data The user data passed from the foreach function
-*
-* @return @c true to continue with the next iteration of the loop, \n @c false to break out of the loop.
-* @pre sttpe_foreach_engine_settings() will invoke this callback. 
-*
-* @see sttpe_foreach_engine_settings()
-*/
-typedef bool (*sttpe_engine_setting_cb)(const char* key, const char* value, void* user_data);
-
-/**
 * @brief Initializes the engine.
 *
 * @param[in] result_cb A callback function for recognition result
-* @param[in] partial_result_cb A callback function for partial recognition result
 * @param[in] silence_cb A callback function for silence detection
 *
 * @return 0 on success, otherwise a negative error value
@@ -298,11 +211,10 @@ typedef bool (*sttpe_engine_setting_cb)(const char* key, const char* value, void
 * @retval #STTP_ERROR_INVALID_PARAMETER Invalid parameter
 * @retval #STTP_ERROR_INVALID_STATE Already initialized
 * @retval #STTP_ERROR_OPERATION_FAILED Operation failed
-* 
+*
 * @see sttpe_deinitialize()
 */
-typedef int (* sttpe_initialize)(sttpe_result_cb result_cb, sttpe_partial_result_cb partial_result_cb, 
-				 sttpe_silence_detected_cb silence_cb);
+typedef int (* sttpe_initialize)(sttpe_result_cb result_cb, sttpe_silence_detected_cb silence_cb);
 
 /**
 * @brief Deinitializes the engine
@@ -310,7 +222,7 @@ typedef int (* sttpe_initialize)(sttpe_result_cb result_cb, sttpe_partial_result
 * @return 0 on success, otherwise a negative error value
 * @retval #STTP_ERROR_NONE Successful
 * @retval #STTP_ERROR_INVALID_STATE Not initialized
-* 
+*
 * @see sttpe_initialize()
 */
 typedef int (* sttpe_deinitialize)(void);
@@ -326,46 +238,42 @@ typedef int (* sttpe_deinitialize)(void);
 * @retval #STTP_ERROR_INVALID_PARAMETER Invalid parameter
 * @retval #STTP_ERROR_INVALID_STATE Not initialized
 *
-* @post	This function invokes sttpe_supported_language_cb() repeatedly for getting supported languages. 
+* @post	This function invokes sttpe_supported_language_cb() repeatedly for getting supported languages.
 *
 * @see sttpe_supported_language_cb()
 */
-typedef int (* sttpe_foreach_supported_languages)(sttpe_supported_language_cb callback, void* user_data);
+typedef int (* sttpe_foreach_supported_langs)(sttpe_supported_language_cb callback, void* user_data);
 
 /**
 * @brief Checks whether a language is valid or not.
 *
 * @param[in] language A language
 *
-* @return 0 on success, otherwise a negative error value
-* @retval #STTP_ERROR_NONE Successful
-* @retval #STTP_ERROR_INVALID_PARAMETER Invalid parameter
-* @retval #STTP_ERROR_INVALID_STATE Not initialized
+* @return @c true to valid language, \n @c false to invalid language.
 *
 * @see sttpe_foreach_supported_languages()
 */
 typedef bool (* sttpe_is_valid_language)(const char* language);
 
 /**
-* @brief Gets whether the engine supports silence detection. 
+* @brief Gets whether the engine supports silence detection.
 *
-* @return 0 on success, otherwise a negative error value
-* @retval #STTP_ERROR_NONE Successful
-* @retval #STTP_ERROR_INVALID_STATE Not initialized
+* @return @c true to support silence detection, \n @c false not to support silence detection.
+*
+* @see sttpe_set_silence_detection()
 */
 typedef bool (* sttpe_support_silence_detection)(void);
 
 /**
-* @brief Gets supporting partial result. 
+* @brief Gets supporting recognition type.
 *
-* @return 0 on success, otherwise a negative error value
-* @retval #STTP_ERROR_NONE Successful
-* @retval #STTP_ERROR_INVALID_STATE Not initialized
+* @return @c true to support recognition type, \n @c false not to support recognition type.
+*
 */
-typedef bool (* sttpe_support_partial_result)(void);
+typedef bool (* sttpe_support_recognition_type)(const char* type);
 
 /**
-* @brief Gets recording format of the engine. 
+* @brief Gets recording format of the engine.
 *
 * @param[out] types The format used by the recorder.
 * @param[out] rate The sample rate used by the recorder.
@@ -378,32 +286,8 @@ typedef bool (* sttpe_support_partial_result)(void);
 typedef int (* sttpe_get_recording_format)(sttp_audio_type_e* types, int* rate, int* channels);
 
 /**
-* @brief Sets profanity filter option.
-* 
-* @param[in] value A value
-*
-* @return 0 on success, otherwise a negative error value
-* @retval #STTP_ERROR_NONE Successful
-* @retval #STTP_ERROR_INVALID_STATE Not initialized
-* @retval #STTP_ERROR_NOT_SUPPORTED_FEATURE Not supported feature
-*/
-typedef int (* sttpe_set_profanity_filter)(bool value);
-
-/**
-* @brief Sets punctuation option.
-* 
-* @param[in] value A value
-*
-* @return 0 on success, otherwise a negative error value
-* @retval #STTP_ERROR_NONE Successful
-* @retval #STTP_ERROR_INVALID_STATE Not initialized
-* @retval #STTP_ERROR_NOT_SUPPORTED_FEATURE Not supported feature
-*/
-typedef int (* sttpe_set_punctuation_override)(bool value);
-
-/**
 * @brief Sets silence detection option.
-* 
+*
 * @param[in] value A value
 *
 * @return 0 on success, otherwise a negative error value
@@ -414,11 +298,42 @@ typedef int (* sttpe_set_punctuation_override)(bool value);
 typedef int (* sttpe_set_silence_detection)(bool value);
 
 /**
+* @brief Gets whether application is agreed to get engine service.
+*
+* @param[in] appid Application ID
+* @param[in] value A value
+*
+* @return 0 on success, otherwise a negative error value
+* @retval #STTP_ERROR_NONE Successful
+* @retval #STTP_ERROR_INVALID_STATE Not initialized
+* @retval #STTP_ERROR_NOT_SUPPORTED_FEATURE Not supported feature
+*/
+typedef int (* sttpe_check_app_agreed)(const char* appid, bool* value);
+
+/**
+* @brief Retrieves result time info in recognition callback of daemon.
+*
+* @param[in] callback a callback function
+* @param[in] user_data The user data to be passed to the callback function
+*
+* @return 0 on success, otherwise a negative error value
+* @retval #STTP_ERROR_NONE Successful
+* @retval #STTP_ERROR_INVALID_PARAMETER Invalid parameter
+* @retval #STTP_ERROR_INVALID_STATE Not initialized
+*
+* @pre sttpe_result_cb() will be invoke this function.
+* @post	This function invokes sttpe_result_time_cb() repeatedly for getting result time information.
+*
+* @see sttpe_result_time_cb()
+*/
+typedef int (* sttpe_foreach_result_time)(void* time_info, sttpe_result_time_cb callback, void* user_data);
+
+/**
 * @brief Start recognition.
 *
-* @param[in] language A language. 
+* @param[in] language A language.
 * @param[in] type A recognition type. (e.g. #STTP_RECOGNITION_TYPE_FREE, #STTP_RECOGNITION_TYPE_WEB_SEARCH)
-* @param[in] user_data The user data to be passed to the callback function. 
+* @param[in] user_data The user data to be passed to the callback function.
 *
 * @return 0 on success, otherwise a negative error value
 * @retval #STTP_ERROR_NONE Successful
@@ -437,10 +352,10 @@ typedef int (* sttpe_set_silence_detection)(bool value);
 typedef int (* sttpe_start)(const char* language, const char* type, void *user_data);
 
 /**
-* @brief Sets recording data for speech recognition from recorder. 
+* @brief Sets recording data for speech recognition from recorder.
 *
-* @remark This function should be returned immediately after recording data copy. 
-* 
+* @remark This function should be returned immediately after recording data copy.
+*
 * @param[in] data A recording data
 * @param[in] length A length of recording data
 *
@@ -448,14 +363,14 @@ typedef int (* sttpe_start)(const char* language, const char* type, void *user_d
 * @retval #STTP_ERROR_NONE Successful
 * @retval #STTP_ERROR_INVALID_PARAMETER Invalid parameter
 * @retval #STTP_ERROR_INVALID_STATE Invalid state
+* @retval #STTP_ERROR_OPERATION_FAILED Operation failed
 *
 * @pre sttpe_start() should succeed.
-* @post If the engine supports partial result, it will invoke sttpe_partial_result_cb().
+* @post If the engine supports partial result, it will invoke sttpe_result_cb().
 *
 * @see sttpe_start()
 * @see sttpe_cancel()
 * @see sttpe_stop()
-* @see sttpe_partial_result_cb()
 */
 typedef int (* sttpe_set_recording_data)(const void* data, unsigned int length);
 
@@ -484,7 +399,7 @@ typedef int (* sttpe_stop)(void);
 * @return 0 on success, otherwise a negative error value.
 * @retval #STTP_ERROR_NONE Successful.
 * @retval #STTP_ERROR_INVALID_STATE Invalid state.
-* @pre STT engine is in recognition processing.
+* @pre STT engine is in recognition processing or recording.
 *
 * @see sttpe_start()
 * @see sttpe_stop()
@@ -492,71 +407,75 @@ typedef int (* sttpe_stop)(void);
 typedef int (* sttpe_cancel)(void);
 
 /**
-* @brief Gets setting information of the engine.
+* @brief Start recognition of file.
 *
-* @param[in] callback A callback function.
+* @param[in] language A language.
+* @param[in] type A recognition type. (e.g. #STTP_RECOGNITION_TYPE_FREE, #STTP_RECOGNITION_TYPE_WEB_SEARCH)
+* @param[in] filepath A filepath for recognition.
+* @param[in] audio_type A audio type of file.
+* @param[in] sample_rate A sample rate of file.
 * @param[in] user_data The user data to be passed to the callback function.
 *
 * @return 0 on success, otherwise a negative error value
 * @retval #STTP_ERROR_NONE Successful
 * @retval #STTP_ERROR_INVALID_PARAMETER Invalid parameter
-* @retval #STTP_ERROR_INVALID_STATE Not initialized
+* @retval #STTP_ERROR_INVALID_STATE Invalid state
+* @retval #STTP_ERROR_INVALID_LANGUAGE Invalid language
 * @retval #STTP_ERROR_OPERATION_FAILED Operation failed
+* @retval #STTP_ERROR_OUT_OF_NETWORK Out of network
 *
-* @post	This function invokes sttpe_engine_setting_cb() repeatedly for getting engine settings. 
+* @pre The engine is not in recognition processing.
 *
-* @see sttpe_engine_setting_cb()
+* @see sttpe_cancel_file()
 */
-typedef int (* sttpe_foreach_engine_settings)(sttpe_engine_setting_cb callback, void* user_data);
+typedef int (* sttpe_start_file)(const char* language, const char* type, const char* filepath,
+				 sttp_audio_type_e audio_type, int sample_rate, void *user_data);
 
 /**
-* @brief Set engine specific information. 
+* @brief Cancels the recognition process of file.
 *
-* @param[in] key A key
-* @param[in] value A value
+* @return 0 on success, otherwise a negative error value.
+* @retval #STTP_ERROR_NONE Successful.
+* @retval #STTP_ERROR_INVALID_STATE Invalid state.
+* @pre STT engine is in recognition processing.
 *
-* @return 0 on success, otherwise a negative error value
-* @retval #STTP_ERROR_NONE Successful
-* @retval #STTP_ERROR_INVALID_PARAMETER Invalid parameter
-* @retval #STTP_ERROR_INVALID_STATE Not initialized
-* @retval #STTP_ERROR_OPERATION_FAILED Operation failed
-*
-* @see sttpe_foreach_engine_settings()
+* @see sttpe_start_file()
 */
-typedef int (* sttpe_set_engine_setting)(const char* key, const char* value);
-
+typedef int (* sttpe_cancel_file)(void);
 
 /**
 * @brief A structure of the engine functions.
 */
 typedef struct {
-	int size;						/**< Size of structure */    
+	int size;						/**< Size of structure */
 	int version;						/**< Version */
-	
+
 	sttpe_initialize		initialize;		/**< Initialize engine */
 	sttpe_deinitialize		deinitialize;		/**< Shutdown engine */
 
 	/* Get engine information */
-	sttpe_foreach_supported_languages foreach_langs;	/**< Foreach language list */
+	sttpe_foreach_supported_langs	foreach_langs;		/**< Foreach language list */
 	sttpe_is_valid_language		is_valid_lang;		/**< Check language */
 	sttpe_support_silence_detection	support_silence;	/**< Get silence detection support */
-	sttpe_support_partial_result	support_partial_result;	/**< Get partial result support */
+	sttpe_support_recognition_type	support_recognition_type; /**< Get recognition type support */
 	sttpe_get_recording_format	get_audio_format;	/**< Get audio format */
-	
+	sttpe_foreach_result_time	foreach_result_time;	/**< Foreach result time */
+
 	/* Set engine information */
-	sttpe_set_profanity_filter	set_profanity_filter;	/**< Set profanity filter */
-	sttpe_set_punctuation_override	set_punctuation;	/**< Set punctuation override */
 	sttpe_set_silence_detection	set_silence_detection;	/**< Set silence detection */
+
+	/* Check app agreement */
+	sttpe_check_app_agreed		check_app_agreed;	/**< Get app agreement */
 
 	/* Control recognition */
 	sttpe_start			start;			/**< Start recognition */
 	sttpe_set_recording_data	set_recording;		/**< Set recording data */
 	sttpe_stop			stop;			/**< Shutdown function */
-	sttpe_cancel			cancel;			/**< Cancel recognition or cancel thinking */
-		
-	/* Engine setting */
-	sttpe_foreach_engine_settings	foreach_engine_settings;/**< Foreach engine specific info */
-	sttpe_set_engine_setting	set_engine_setting;	/**< Set engine specific info */
+	sttpe_cancel			cancel;			/**< Cancel recognition */
+
+	/* Control file recognition */
+	sttpe_start_file		start_file;		/**< Start recognition */
+	sttpe_cancel_file		cancel_file;		/**< Cancel recognition */
 } sttpe_funcs_s;
 
 /**
@@ -569,7 +488,7 @@ typedef struct {
 } sttpd_funcs_s;
 
 /**
-* @brief Loads the engine. 
+* @brief Loads the engine.
 *
 * @param[in] pdfuncs The daemon functions
 * @param[out] pefuncs The engine functions
@@ -588,7 +507,7 @@ typedef struct {
 int sttp_load_engine(sttpd_funcs_s* pdfuncs, sttpe_funcs_s* pefuncs);
 
 /**
-* @brief Unloads this engine by the daemon. 
+* @brief Unloads this engine by the daemon.
 *
 * @pre The sttp_load_engine() should be successful.
 *
@@ -601,19 +520,19 @@ void sttp_unload_engine(void);
 *
 * @param[in] engine_uuid The engine id
 * @param[in] engine_name The engine name
-* @param[in] setting_ug_name The setting ug name
+* @param[in] engine_setting The setting name
 * @param[in] use_network @c true to need network @c false not to need network.
 * @param[in] user_data The User data passed from sttp_get_engine_info()
 *
-* @pre sttp_get_engine_info() will invoke this callback. 
+* @pre sttp_get_engine_info() will invoke this callback.
 *
 * @see sttp_get_engine_info()
 */
-typedef void (*sttpe_engine_info_cb)(const char* engine_uuid, const char* engine_name, const char* setting_ug_name, 
+typedef void (*sttpe_engine_info_cb)(const char* engine_uuid, const char* engine_name, const char* engine_setting,
 				     bool use_network, void* user_data);
 
 /**
-* @brief Gets the engine base information before the engine is loaded by the daemon. 
+* @brief Gets the engine base information before the engine is loaded by the daemon.
 *
 * @param[in] callback Callback function
 * @param[in] user_data User data to be passed to the callback function
@@ -637,5 +556,5 @@ int sttp_get_engine_info(sttpe_engine_info_cb callback, void* user_data);
 /**
  * @}@}
  */
- 
+
 #endif /* __STTP_H__ */

@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2011 Samsung Electronics Co., Ltd All Rights Reserved 
+*  Copyright (c) 2011-2014 Samsung Electronics Co., Ltd All Rights Reserved 
 *  Licensed under the Apache License, Version 2.0 (the "License");
 *  you may not use this file except in compliance with the License.
 *  You may obtain a copy of the License at
@@ -15,48 +15,35 @@
 #ifndef __STTD_RECORDER_H__
 #define __STTD_RECORDER_H__
 
+#include "sttp.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-typedef enum {
-	STTD_RECORDER_STATE_READY,	/**< Recorder is ready to start */
-	STTD_RECORDER_STATE_RECORDING,	/**< In the middle of recording */
-	STTD_RECORDER_STATE_PAUSED
-} sttd_recorder_state;
 
-typedef enum {
-	STTD_RECORDER_PCM_S16,		/**< PCM, signed 16-bit */
-	STTD_RECORDER_PCM_U8,		/**< PCM, unsigned 8-bit */
-	STTD_RECORDER_AMR		/**< AMR (Callback will be invoked after recording) */
-} sttd_recorder_audio_type;
+typedef int (*stt_recorder_audio_cb)(const void* data, const unsigned int length);
 
-typedef enum {
-	STTD_RECORDER_CHANNEL_MONO	= 1,	/**< Mono channel : Default value */
-	STTD_RECORDER_CHANNEL_STEREO	= 2	/**< Stereo */
-} sttd_recorder_channel;
+typedef void (*stt_recorder_interrupt_cb)();
 
+int sttd_recorder_initialize(stt_recorder_audio_cb audio_cb, stt_recorder_interrupt_cb interrupt_cb);
 
-typedef int (*sttvr_audio_cb)(const void* data, const unsigned int length);
-typedef int (*sttvr_volume_data_cb)(const float data);
+int sttd_recorder_deinitialize();
 
-int sttd_recorder_set(sttd_recorder_audio_type type, sttd_recorder_channel ch, unsigned int sample_rate, unsigned int max_time, sttvr_audio_cb cbfunc);
+int sttd_recorder_set_audio_session();
 
-int sttd_recorder_init();
+int sttd_recorder_unset_audio_session();
 
-int sttd_recorder_start();
+int sttd_recorder_create(int engine_id, sttp_audio_type_e type, int channel, unsigned int sample_rate);
 
-int sttd_recorder_cancel();
+int sttd_recorder_destroy(int engine_id);
 
-int sttd_recorder_stop();
+int sttd_recorder_start(int engine_id);
 
-int sttrecorder_pause();
+int sttd_recorder_stop(int engine_id);
 
-int sttd_recorder_state_get(sttd_recorder_state* state);
+int sttd_recorder_set_ignore_session(int engine_id);
 
-int sttd_recorder_get_volume(float *vol);
-
-int sttd_recorder_destroy();
 
 #ifdef __cplusplus
 }

@@ -1,0 +1,13 @@
+<manifest>
+        <define>
+                <domain name="stt-server" policy="shared"/>
+        </define>
+        <assign>
+                <filesystem path="/usr/lib/libstt.so" label="_" exec_label="none"/>
+                <filesystem path="/usr/lib/libstt_file.so" label="_" exec_label="none"/>
+                <filesystem path="/usr/lib/libstt_setting.so" label="_" exec_label="none"/>
+        </assign>
+        <request>
+                <domain name="stt-server" />
+        </request>
+</manifest>
