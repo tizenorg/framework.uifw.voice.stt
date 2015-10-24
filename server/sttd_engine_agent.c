@@ -737,7 +737,7 @@ int sttd_engine_agent_load_current_engine(int uid, const char* engine_uuid)
 		return STTD_ERROR_OPERATION_FAILED;
 	}
 
-	ret = sttd_recorder_create(engine->engine_id, atype, channels, rate);
+	ret = sttd_recorder_create(engine->engine_id, uid, atype, channels, rate);
 	if (0 != ret) {
 		SECURE_SLOG(LOG_ERROR, TAG_STTD, "[Engine Agent ERROR] Fail to create recorder : %d %s", engine->engine_id, engine->engine_name);
 		return STTD_ERROR_OPERATION_FAILED;
@@ -1143,11 +1143,12 @@ int sttd_engine_agent_recognize_start_engine(int uid, const char* lang, const ch
 
 	SLOG(LOG_DEBUG, TAG_STTD, "[Engine Agent] Create recorder");
 
-	ret = sttd_recorder_create(engine->engine_id, atype, channels, rate);
+	ret = sttd_recorder_create(engine->engine_id, uid, atype, channels, rate);
 	if (0 != ret) {
 		SECURE_SLOG(LOG_ERROR, TAG_STTD, "[Engine Agent ERROR] Fail to create recorder : %d %s", engine->engine_id, engine->engine_name);
 		return STTD_ERROR_OPERATION_FAILED;
 	}
+
 #endif
 
 #if 0

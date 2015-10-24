@@ -2,13 +2,13 @@ stt-server device::app_logging rwx
 stt-server device::sys_logging rwx
 stt-server pulseaudio rwx
 stt-server pulseaudio::record r
+stt-server security-server::api-privilege-by-pid w
 stt-server sound_server rw
 stt-server system::homedir rwxat
 stt-server system::share rwxat
 stt-server system::use_internet rw
-stt-server system::vconf rwxat
-stt-server system::vconf_inhouse rwxat
-stt-server system::vconf_multimedia rwxat
-stt-server system::vconf_network rwxat
 stt-server sys-assert::core rwxat
+stt-server tizen::vconf::public::r rl
+stt-server tizen::vconf::public::r::platform::rw rw
+stt-server tizen::vconf::setting::admin rl
 system::use_internet stt-server w

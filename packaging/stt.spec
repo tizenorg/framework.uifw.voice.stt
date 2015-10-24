@@ -1,6 +1,6 @@
 Name:       stt
 Summary:    Speech To Text client library and daemon
-Version:    0.2.53
+Version:    0.2.54
 Release:    1
 Group:      Graphics & UI Framework/Voice Framework
 License:    Apache-2.0
@@ -16,9 +16,10 @@ BuildRequires:  pkgconfig(dbus-1)
 BuildRequires:  pkgconfig(dlog)
 BuildRequires:  pkgconfig(ecore)
 BuildRequires:  pkgconfig(glib-2.0)
+BuildRequires:  pkgconfig(libsmack)
 BuildRequires:  pkgconfig(libxml-2.0)
+BuildRequires:  pkgconfig(security-server)
 BuildRequires:  pkgconfig(vconf)
-
 
 BuildRequires:  cmake
 
@@ -85,8 +86,6 @@ install LICENSE %{buildroot}/usr/share/license/%{name}
 %post 
 /sbin/ldconfig
 
-/usr/bin/vconftool set -t string db/voice_input/language "auto" -g 5000 -f -s system::vconf_inhouse
-
 mkdir -p /usr/lib/voice
 chsmack -a '_' /usr/lib/voice
 
@@ -104,6 +103,9 @@ chown 5000:5000 /opt/usr/data/voice
 chown 5000:5000 /opt/usr/data/voice/stt
 chown 5000:5000 /opt/usr/data/voice/stt/1.0
 
+chsmack -a '_' /usr/share/dbus-1/system-services/org.tizen.voice.sttserver.service
+
+chsmack -a '_' /usr/bin/stt-daemon
 
 %postun -p /sbin/ldconfig
 
@@ -116,6 +118,7 @@ chown 5000:5000 /opt/usr/data/voice/stt/1.0
 /usr/lib/libstt_setting.so
 /usr/lib/voice/stt/1.0/stt-config.xml
 /usr/bin/stt-daemon
+/usr/share/dbus-1/system-services/*
 /opt/usr/devel/bin/stt-test
 /usr/share/license/%{name}
 

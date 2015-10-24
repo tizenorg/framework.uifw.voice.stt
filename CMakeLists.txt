@@ -25,7 +25,7 @@ SET(PREFIX ${CMAKE_INSTALL_PREFIX})
 SET(EXEC_PREFIX "${PREFIX}")
 SET(LIBDIR "${PREFIX}/lib")
 SET(INCLUDEDIR "${PREFIX}/include")
-SET(VERSION 0.2.53)
+SET(VERSION 0.2.54)
 
 ## Include common directory ##
 INCLUDE_DIRECTORIES("${CMAKE_SOURCE_DIR}/common")
@@ -34,12 +34,12 @@ INCLUDE_DIRECTORIES("${CMAKE_SOURCE_DIR}/include")
 ## Dependent packages ##
 INCLUDE(FindPkgConfig)
 pkg_check_modules(pkgs REQUIRED 
-	capi-media-audio-io capi-system-info dbus-1 dlog ecore glib-2.0
-	libxml-2.0 vconf vconf-internal-keys capi-media-wav-player aul
+	aul capi-media-audio-io capi-media-wav-player capi-system-info dbus-1 dlog  
+	ecore glib-2.0 libsmack libxml-2.0 security-server vconf vconf-internal-keys 
 )
 
 pkg_check_modules(pkgs_test REQUIRED
-    ecore
+    dlog ecore
 )
 
 ## API ##
@@ -60,3 +60,5 @@ INSTALL(FILES ${CMAKE_SOURCE_DIR}/stt-server.rule DESTINATION /etc/smack/accesse
 ## config ##
 INSTALL(FILES ${CMAKE_SOURCE_DIR}/stt-config.xml DESTINATION /usr/lib/voice/stt/1.0)
 
+## Dbus service ##
+INSTALL(FILES ${CMAKE_SOURCE_DIR}/org.tizen.voice.sttserver.service DESTINATION /usr/share/dbus-1/system-services)
