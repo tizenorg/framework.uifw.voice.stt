@@ -1470,8 +1470,6 @@ static Eina_Bool __stt_notify_error(void *data)
 {
 	stt_client_s* client = (stt_client_s*)data;
 
-	SLOG(LOG_WARN, TAG_STTC, "[WARNING] Error from sttd");
-
 	/* check handle */
 	if (NULL == client) {
 		SLOG(LOG_ERROR, TAG_STTC, "[ERROR] Fail to notify error : A handle is not valid");
@@ -1485,7 +1483,7 @@ static Eina_Bool __stt_notify_error(void *data)
 		stt_client_use_callback(client);
 		client->error_cb(client->stt, client->reason, client->error_user_data);
 		stt_client_not_use_callback(client);
-		SLOG(LOG_WARN, TAG_STTC, "[WARNING] Error callback is called : reason [%d]", client->reason);
+		SLOG(LOG_DEBUG, TAG_STTC, "Error callback is called");
 	} else {
 		SLOG(LOG_WARN, TAG_STTC, "[WARNING] Error callback is null");
 	}
@@ -1497,13 +1495,11 @@ int __stt_cb_error(int uid, int reason)
 {
 	stt_client_s* client = stt_client_get_by_uid(uid);
 	if( NULL == client ) {
-		SLOG(LOG_ERROR, TAG_STTC, "Handle not found");
+		SLOG(LOG_ERROR, TAG_STTC, "Handle not found\n");
 		return -1;
 	}
 
 	client->reason = reason;
-	client->internal_state = STT_INTERNAL_STATE_NONE;
-	SLOG(LOG_INFO, TAG_STTC, "internal state is initialized to 0");
 
 	if (NULL != client->error_cb) {
 		ecore_timer_add(0, __stt_notify_error, client);
